@@ -17,7 +17,7 @@ spec:
       containers:
         - name: app
           image: "matreshka-erp:latest"
-          imagePullPolicy: Always
+          imagePullPolicy: Never
           ports:
             - name: http
               containerPort: 8080
