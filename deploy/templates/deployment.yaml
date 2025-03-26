@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matreshka-erp
+  labels:
+    app: matreshka-erp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matreshka-erp
+  template:
+    metadata:
+      labels:
+        app: matreshka-erp
+    spec:
+      containers:
+        - name: app
+          image: "matreshka-erp:latest"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
