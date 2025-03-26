@@ -18,6 +18,9 @@ spec:
         - name: app
           image: "matreshka-erp:latest"
           imagePullPolicy: Never
+          env:
+            - name: _JAVA_OPTIONS
+              value: "-Xmx512m"
           ports:
             - name: http
               containerPort: 8080
@@ -30,3 +33,10 @@ spec:
             httpGet:
               path: /actuator/health/readiness
               port: http
+          resources:
+            requests:
+              memory: "1024Mi"
+              cpu: "1"
+            limits:
+              memory: "1024Mi"
+              cpu: "1"
