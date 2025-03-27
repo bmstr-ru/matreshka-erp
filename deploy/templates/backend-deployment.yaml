@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matreshka-backend
+  labels:
+    app: matreshka-erp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matreshka-backend
+  template:
+    metadata:
+      labels:
+        app: matreshka-backend
+    spec:
+      containers:
+        - name: app
+          image: "matreshka-backend:latest"
+          imagePullPolicy: Never
+          env:
+            - name: _JAVA_OPTIONS
+              value: "-Xmx512m"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+          resources:
+            requests:
+              memory: "1024Mi"
+              cpu: "1"
+            limits:
+              memory: "1024Mi"
+              cpu: "1"

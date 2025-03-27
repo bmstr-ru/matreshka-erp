@@ -3,26 +3,46 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
-  build:
+  build-backend:
     runs-on: self-hosted
     steps:
-      - name: Checkout репозитория
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Сборка проекта с Maven
+      - name: Build backend
         run: mvn clean package
 
-      - name: Сборка и пуш Docker-образа
+      - name: Build backend docker image
         working-directory: core
         run: |
-          docker build --build-arg JAR_FILE=target/matreshka-core-1.0-SNAPSHOT.jar -t matreshka-erp:latest .
+          docker build --build-arg JAR_FILE=target/matreshka-core-1.0-SNAPSHOT.jar -t matreshka-backend:latest .
+
+  build-frontend:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build frontend
+        working-directory: frontend
+        run: |
+          nvm use 22
+          npm install
+          npm run build
+
+      - name: Build frontend docker image
+        working-directory: frontend
+        run: |
+          docker build . -t matreshka-frontend:latest
 
   deploy:
     runs-on: self-hosted
-    needs: build
+    needs:
+      - build-backend
+      - build-frontend
     steps:
       - name: Checkout репозитория
         uses: actions/checkout@v4

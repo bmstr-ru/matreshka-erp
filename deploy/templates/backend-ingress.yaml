@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: matreshka-backend
+  labels:
+    app: matreshka-erp
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - matreshka-api.bmstr.ru
+      secretName: matreshka-backend-tls
+  rules:
+    - host: matreshka-api.bmstr.ru
+      http:
+        paths:
+          - pathType: Prefix
+            backend:
+              service:
+                name: matreshka-backend
+                port:
+                  number: 80
+            path: /
