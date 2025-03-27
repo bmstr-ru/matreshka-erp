@@ -29,6 +29,7 @@ jobs:
       - name: Build frontend
         working-directory: frontend
         run: |
+          source ~/.zshrc
           npm install
           npm run build
 
