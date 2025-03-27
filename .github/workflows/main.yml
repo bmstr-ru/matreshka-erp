@@ -29,7 +29,6 @@ jobs:
       - name: Build frontend
         working-directory: frontend
         run: |
-          nvm use 22
           npm install
           npm run build
 
