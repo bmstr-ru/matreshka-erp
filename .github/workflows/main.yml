@@ -16,8 +16,8 @@ jobs:
         run: mvn clean package
 
       - name: Сборка и пуш Docker-образа
+        working-directory: core
         run: |
-          cd core
           docker build --build-arg JAR_FILE=target/matreshka-core-1.0-SNAPSHOT.jar -t matreshka-erp:latest .
 
   deploy:
@@ -27,6 +27,7 @@ jobs:
       - name: Checkout репозитория
         uses: actions/checkout@v4
 
-      - name: Установка Helm и Kubectl
+      - name: Установка новой версии в Kubernetes
+        working-directory: deploy
         run: |
           helm upgrade -i matreshka-erp .
