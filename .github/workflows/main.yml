@@ -31,3 +31,4 @@ jobs:
         working-directory: deploy
         run: |
           helm upgrade -i matreshka-erp .
+          kubectl rollout restart deployment/matreshka-erp
