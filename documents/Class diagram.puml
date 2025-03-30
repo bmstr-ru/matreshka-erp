@@ -1,0 +1,93 @@
+@startuml
+class Employee {
+    id: Long
+    name: String //Иванов Иван Иванович
+    birthDate: Date
+    jobTitle: String
+    comments: String
+    active: Boolean
+    grant: Grant[]
+
+    create()
+    fire()
+    setName()
+    setJobTitle()
+    setComments()
+    addGrant()
+    removeGrant()
+}
+
+class EmployeeGroup {
+    employees: Employee[]
+    grants: Grant[]
+
+    create()
+    delete()
+    addEmployee()
+    removeEmployee()
+    addGrant()
+    removeGrant()
+}
+
+class Grant {
+    description: String
+
+    create()
+    delete()
+}
+
+class Document {
+    name: String
+    category: String
+    versions: DocumentVersion[]
+
+    create()
+    createNewVersion(file, text)
+}
+
+class DocumentVersion {
+    file: File
+    text: String
+    creationTime: DateTime
+    createdBy: Employee
+    status: String
+
+    sendForApproval()
+    approve()
+}
+
+class ApprovalPath {
+    approvalEntities: ApprovalEntity[]
+    deadline: DateTime
+
+    create()
+    send()
+}
+
+class ApprovalEntity {
+    employee: Employee
+    employeeGroup: EmployeeGroup
+    status: String
+    deadline: DateTime
+    comment: String
+
+    approve()
+    reject()
+}
+
+class Notification {
+    notificationEntities: NotificationEntity[]
+
+    create()
+    send()
+}
+
+class NotificationEntity {
+    employee: Employee
+    employeeGroup: EmployeeGroup
+    status: String
+    deadline: DateTime
+
+    accept()
+}
+@enduml
