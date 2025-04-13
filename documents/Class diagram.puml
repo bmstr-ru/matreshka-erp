@@ -54,6 +54,7 @@ class DocumentVersion {
 
     sendForApproval()
     approve()
+    reject()
 }
 
 class ApprovalPath {
