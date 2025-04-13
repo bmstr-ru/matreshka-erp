@@ -60,9 +60,13 @@ class DocumentVersion {
 class ApprovalPath {
     approvalEntities: ApprovalEntity[]
     deadline: DateTime
+    currentApprover: int // номер текущего согласующего в списке approvalEntities
+    documentVersion: DocumentVersion // версия документа, которую согласуем
 
     create()
-    send()
+    start()
+    proceedApproval() // отправить на согласование следующему в списке (+1)
+    reject()
 }
 
 class ApprovalEntity {
@@ -71,9 +75,11 @@ class ApprovalEntity {
     status: String
     deadline: DateTime
     comment: String
+    approvalPath: ApprovalPath // путь согласования
 
     approve()
     reject()
+    notifyApprover()
 }
 
 class Notification {
